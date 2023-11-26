@@ -1,12 +1,14 @@
 from flask import Blueprint, jsonify, request
 from app.services.task_service import TaskService
 
+from app.utils import parse_bool
+
 task_route = Blueprint('task_view', __name__)
 
 
 @task_route.route('/tasks', methods=['GET'])
 def get_tasks():
-    is_completed = request.args.get('is_completed', default=None, type=bool)
+    is_completed = request.args.get('is_completed', default=None, type=parse_bool)
     board_id = request.args.get('board_id', default=None, type=str)
     return TaskService.get_tasks(is_completed, board_id)
 
